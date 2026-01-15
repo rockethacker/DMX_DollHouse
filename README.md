@@ -12,3 +12,4 @@ DMX Controller for Haunted Doll House
    2. search for "esp"
    3. Install "esp32 by Espressif Systems"
 6. Select board by selecting "Tools --> Board --> esp32 --> SparkFun ESP32 Thing Plus C" 
+7. Note that the above installations should take care of the CH340 driver installation. If not, follow https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers
