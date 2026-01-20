@@ -24,3 +24,13 @@ DMX Controller for Haunted Doll House
 11. Select board by selecting "Tools --> Board --> esp32 --> SparkFun ESP32 Thing Plus C" 
 12. Select port by selecting "Tools -->  Port --> COMxx" Where "xx" is the port your board is connected to (e.g. COM3)
 13. Open this project by selecting "File --> Open..." and navigating to "Documents\GitHub\DMX_DollHouse\DMX_DollHouse.ino"
+
+# Hardware
+Parts are mostly from SparkFun. If you're in the DFW area and buy from Mouser you can get very fast, cheap delivery (sometimes overnight) via USPS
+* https://www.sparkfun.com/sparkfun-esp32-thing-plus-dmx-to-led-shield.html
+* https://www.sparkfun.com/sparkfun-thing-plus-esp32-wroom-usb-c.html
+* https://www.sparkfun.com/feather-stackable-header-set.html
+  * headers for thing plus
+* https://www.adafruit.com/product/6313 - FeatherWing 128x64 OLED with pins
+* https://www.sparkfun.com/sparkfun-qwiic-quad-relay.html
+  * Discontinued product but available on Mouser
