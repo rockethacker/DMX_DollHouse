@@ -1,22 +1,14 @@
 /* https://github.com/rockethacker/DMX_DollHouse
 
 == Description ==
-Inputs DMX commands and applies to LED, servo and Relay outputs
+- Inputs DMX commands and applies to LED, servo and Relay outputs
+- Pinouts below are for SparkFun Thing Plus C. Variants of SparkFun Things will have different pin designations, see their graphical datasheet.
+- See README for hardware requirements
 
 == Resources ==
 https://learn.sparkfun.com/tutorials/installing-an-arduino-library
 https://learn.adafruit.com/assets/139874
 https://www.youtube.com/shorts/y7VVxOw890M - How to properly press boot button to upload code
-
-
-== Hardware ==
-https://www.sparkfun.com/sparkfun-esp32-thing-plus-dmx-to-led-shield.html
-https://www.sparkfun.com/sparkfun-thing-plus-esp32-wroom-usb-c.html
-https://www.sparkfun.com/feather-stackable-header-set.html - headers for thing plus
-https://www.adafruit.com/product/6313 - FeatherWing 128x64 OLED with pins
-https://www.sparkfun.com/sparkfun-qwiic-quad-relay.html - Discontinued product but available on Mouser
-
-
 
 == Libraries ==
 - SparkFun DMX Shield Library https://github.com/sparkfun/SparkFunDMX
@@ -32,7 +24,7 @@ SparkFunDMX dmx;
 
 // Create serial port to be used for DMX interface. Exact implementation depends
 // on platform, this example is for the ESP32
-HardwareSerial dmxSerial(2);  //originally was set to 2, but that doesn't seem right
+HardwareSerial dmxSerial(1);  //originally was set to 2, but this board uses port 1, pins 16/17
 
 // Enable pin for DMX shield (Free pin on Thing Plus or Feather pinout)
 uint8_t enPin = 4;
@@ -52,8 +44,8 @@ void setup()
 
     // Begin DMX serial port
     // RX and TX pins explicitly defined for ESP32 Thing Plus
-    dmxSerial.begin(DMX_BAUD, DMX_FORMAT,16,17);
-    //dmxSerial.begin(DMX_BAUD, DMX_FORMAT);
+    //dmxSerial.begin(DMX_BAUD, DMX_FORMAT,16,17);
+    dmxSerial.begin(DMX_BAUD, DMX_FORMAT);
 
     // Begin DMX driver
     dmx.begin(dmxSerial, enPin, numChannels);
