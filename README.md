@@ -34,3 +34,10 @@ Parts are mostly from SparkFun. If you're in the DFW area and buy from Mouser yo
 * https://www.adafruit.com/product/6313 - FeatherWing 128x64 OLED with pins
 * https://www.sparkfun.com/sparkfun-qwiic-quad-relay.html
   * Discontinued product but available on Mouser
+
+# Troubleshooting
+* using esp_dmx library insalled via arduino ide
+* dmx read example won't compile, https://github.com/someweisguy/esp_dmx/issues/181#issuecomment-2619261884
+* revert esp32 boards manager to 3.1.0
+* update uart.c to fork version
+* esp_dmx version 4.1.0
