@@ -11,15 +11,19 @@ DMX Controller for Haunted Doll House
    4. Note that this will clone to your documents folder
 5. Install Arduino IDE from https://www.arduino.cc/en/software/#ide
 6. Open Arduino IDE
-7. Install Libraries
-   1. Open "Tools --> Manage Libraries..."
-   2. Install "SparkFun DMX Shield Library"
-8. Install board definition
+7. Install board definition
    1. Open "Tools --> Board --> Boards Manager..."
    2. search for "esp"
-   3. Install "esp32 by Espressif Systems"
+   3. Install "esp32 by Espressif Systems" version 3.1.0
    4. If it times out, try this https://forum.arduino.cc/t/downloading-esp32-3-3-5-fails/1420739/7
-9. Note that the above installations should take care of the CH340 driver installation. If not, follow https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers
+8. Note that the above installations should take care of the CH340 driver installation. If not, follow https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers
+9. Install Libraries
+   1. Open "Tools --> Manage Libraries..."
+   1. Install "esp_dmx by Mieth Weisbrod" version 4.1.0
+      1. dmx read example won't compile, https://github.com/someweisguy/esp_dmx/issues/181#issuecomment-2619261884
+      1. update uart.c to fork version
+   1.       
+
 10. Plug in Sparkfun Thing Plus via USB C cable
 11. Select board by selecting "Tools --> Board --> esp32 --> SparkFun ESP32 Thing Plus C" 
 12. Select port by selecting "Tools -->  Port --> COMxx" Where "xx" is the port your board is connected to (e.g. COM3)
@@ -35,9 +39,5 @@ Parts are mostly from SparkFun. If you're in the DFW area and buy from Mouser yo
 * https://www.sparkfun.com/sparkfun-qwiic-quad-relay.html
   * Discontinued product but available on Mouser
 
-# Troubleshooting
-* using esp_dmx library insalled via arduino ide
-* dmx read example won't compile, https://github.com/someweisguy/esp_dmx/issues/181#issuecomment-2619261884
-* revert esp32 boards manager to 3.1.0
-* update uart.c to fork version
-* esp_dmx version 4.1.0
+# Troubleshooting Notes
+* "SparkFun DMX Shield Library" makes some bad assumptions on how to detect the beginning of the DMX frames so isn't reliabloe for DMX reading
