@@ -73,12 +73,5 @@ void loop()
     }
     Serial.println(" ");
     
-/*
-    // Data has been received, read out channel 1
-    uint8_t data = dmx.readByte(1);
-    
-    Serial.print("DMX: read value from channel 1: ");
-    Serial.println(data);
-*/
 
 }

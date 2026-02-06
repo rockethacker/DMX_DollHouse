@@ -14,8 +14,10 @@
 */
 #include <Arduino.h>
 #include <esp_dmx.h>
+#include "Freenove_WS2812_Lib_for_ESP32.h"
 
-// Define the hardware pins that interface with the DMX bus
+// ==== DMX Init ==== //
+// Define DMX bus
 // Pins will differ between ESP32 models
 int transmitPin = 17;
 int receivePin = 16;
@@ -34,10 +36,19 @@ byte data[DMX_PACKET_SIZE];
 bool dmxIsConnected = false; //Connection status
 unsigned long lastUpdate = millis(); //timer
 
+// ==== LED Init ==== //
+#define LEDS_COUNT  19
+#define LEDS_PIN	27 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
+#define CHANNEL		0
+
+Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL, TYPE_GRB);
+
+// ==== Program Init ==== //
 //State machine states
 enum states {
   DMX_SETUP, DMX_RUN, DMX
 };
+int rate = 10; //rate in Hz
 
 
 // a place to store packet information (not data)
@@ -47,6 +58,7 @@ void setup() {
   Serial.begin(115200); //Start serial monitor
   Serial.println("Initializing...");
 
+// ==== DMX Init ==== //
   /* Install the DMX driver. Tell it which DMX port to use,
     what device configuration to use, and what DMX personalities it should have.
     If you aren't sure which configuration to use, you can use the macros
@@ -64,6 +76,10 @@ void setup() {
   dmx_driver_install(dmxPort, &config, personalities, personality_count);
   Serial.println("dmx driver installed...");
   dmx_set_pin(dmxPort, transmitPin, receivePin, enablePin);
+
+// ==== LED Init ==== //
+  strip.begin();
+  strip.setBrightness(20);  
 }
 
 void loop() {
@@ -82,14 +98,13 @@ void loop() {
 
       //On first packet, log successful connection
       if (!dmxIsConnected) {
-
         Serial.println("DMX is connected!");
-        Serial.println(packet.size-1, DEC); /list DMX packet size
+        Serial.println(packet.size-1, DEC); //list DMX packet size
         dmxIsConnected = true;
       }
       
-      // Print results to serial at 1Hz
-      if (now - lastUpdate > 1000) {
+      // Print results to serial at rate
+      if (now - lastUpdate > 1000/rate) {
         
         dmx_read(dmxPort, data, packet.size); //copy data into buffer
         
@@ -104,6 +119,10 @@ void loop() {
         }
         Serial.println(" ");
         
+        //Output color commands to LED strip
+        strip.setAllLedsColorData(data[1], data[2], data[3]);
+        strip.show();
+
         lastUpdate = now;
       }
     } else {
