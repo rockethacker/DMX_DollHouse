@@ -38,6 +38,18 @@ Parts are mostly from SparkFun. If you're in the DFW area and buy from Mouser yo
 * https://www.adafruit.com/product/6313 - FeatherWing 128x64 OLED with pins
 * https://www.sparkfun.com/sparkfun-qwiic-quad-relay.html
   * Discontinued product but available on Mouser
+* This code supports WS2812 LEDs
+* Power connection is a 5.5mm barrel jack with positive center pin.
+
+# Pin & Channel Designations
+Pinouts for SparkFun Thing (SFT) Plus C. J1 is the 16 pin header. J7 is the 12 pin header.
+
+| SFT Pin | SFT GPIO | SFT Name | Connected To |
+| ------- | -------- | -------- | ------------ |
+| J1-12   | 23       | PICO     | DMX D0       |
+| J1-13   | 19       | POCI     | DMX D1       |
+| J7-6    | 27       | 11       | DMX D2       |
+
 
 # Troubleshooting Notes
 * "SparkFun DMX Shield Library" makes some bad assumptions on how to detect the beginning of the DMX frames so isn't reliabloe for DMX reading
