@@ -22,7 +22,7 @@ DMX Controller for Haunted Doll House
    1. Install "esp_dmx by Mieth Weisbrod" version 4.1.0
       1. dmx read example won't compile, https://github.com/someweisguy/esp_dmx/issues/181#issuecomment-2619261884
       1. update uart.c to fork version
-   1.       
+   1. Install "Freenove WS2812 Lib for ESP32" version 2.0.1
 
 10. Plug in Sparkfun Thing Plus via USB C cable
 11. Select board by selecting "Tools --> Board --> esp32 --> SparkFun ESP32 Thing Plus C" 
