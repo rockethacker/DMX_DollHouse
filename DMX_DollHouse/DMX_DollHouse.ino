@@ -37,17 +37,21 @@ bool dmxIsConnected = false; //Connection status
 unsigned long lastUpdate = millis(); //timer
 
 // ==== LED Init ==== //
-#define LEDS_COUNT  19
-#define LEDS_PIN	27 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
-#define CHANNEL		0
+#define LEDS_COUNT  100 //Same LED count for all strips
+#define LED0_PIN	23 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
+#define LED1_PIN	19 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
+#define LED2_PIN	27 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
 
-Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL, TYPE_GRB);
+Freenove_ESP32_WS2812 LED0 = Freenove_ESP32_WS2812(LEDS_COUNT, LED0_PIN, 0, TYPE_GRB);
+Freenove_ESP32_WS2812 LED1 = Freenove_ESP32_WS2812(LEDS_COUNT, LED1_PIN, 1, TYPE_GRB);
+Freenove_ESP32_WS2812 LED2 = Freenove_ESP32_WS2812(LEDS_COUNT, LED2_PIN, 2, TYPE_GRB);
 
 // ==== Program Init ==== //
 //State machine states
 enum states {
   DMX_SETUP, DMX_RUN, DMX
 };
+uint8_t dmxStartAddr = 1; //Starting address in this DMX universe
 int rate = 10; //rate in Hz
 
 
@@ -78,8 +82,12 @@ void setup() {
   dmx_set_pin(dmxPort, transmitPin, receivePin, enablePin);
 
 // ==== LED Init ==== //
-  strip.begin();
-  strip.setBrightness(20);  
+  LED0.begin();
+  LED0.setBrightness(0);
+  LED1.begin();
+  LED1.setBrightness(0);
+  LED2.begin();
+  LED2.setBrightness(0);
 }
 
 void loop() {
@@ -119,9 +127,17 @@ void loop() {
         }
         Serial.println(" ");
         
-        //Output color commands to LED strip
-        strip.setAllLedsColorData(data[1], data[2], data[3]);
-        strip.show();
+        //Output color commands to LED strips
+        LED0.setAllLedsColorData(data[dmxStartAddr+1], data[dmxStartAddr+2], data[dmxStartAddr+3]);
+        LED0.setBrightness(data[dmxStartAddr+4]);
+        LED0.show();
+        LED1.setAllLedsColorData(data[dmxStartAddr+5], data[dmxStartAddr+6], data[dmxStartAddr+7]);
+        LED1.setBrightness(data[dmxStartAddr+8]);
+        LED1.show();
+        LED2.setAllLedsColorData(data[dmxStartAddr+9], data[dmxStartAddr+10], data[dmxStartAddr+11]);
+        LED2.setBrightness(data[dmxStartAddr+12]);
+        LED2.show();
+
 
         lastUpdate = now;
       }
