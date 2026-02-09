@@ -38,8 +38,9 @@ unsigned long lastUpdate = millis(); //timer
 
 // ==== LED Init ==== //
 #define LEDS_COUNT  100 //Same LED count for all strips
-#define LED0_PIN	23 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
-#define LED1_PIN	19 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
+// For some reason the documentation has pins 19 and 23 mixed up
+#define LED0_PIN	19 //DMX board terminal D0. J1-pin 13 on Sparkfun Thing 
+#define LED1_PIN	23 //DMX board terminal D1. J1-pin 12 on Sparkfun Thing
 #define LED2_PIN	27 //DMX board terminal D2. J7-pin 6 on Sparkfun Thing
 
 Freenove_ESP32_WS2812 LED0 = Freenove_ESP32_WS2812(LEDS_COUNT, LED0_PIN, 0, TYPE_GRB);
@@ -61,6 +62,8 @@ dmx_packet_t packet;
 void setup() {
   Serial.begin(115200); //Start serial monitor
   Serial.println("Initializing...");
+
+  dmxStartAddr -= 1; //DMX addresses start at one. data array starts will null byte so decrement to make indexes work.
 
 // ==== DMX Init ==== //
   /* Install the DMX driver. Tell it which DMX port to use,
