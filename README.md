@@ -46,11 +46,17 @@ Parts are mostly from SparkFun. If you're in the DFW area and buy from Mouser yo
 * Pinouts for SparkFun Thing (SFT) Plus C. J1 is the 16 pin header. J7 is the 12 pin header.
 * For some reason, the DMX board documentation had the D1/D1 pins swapped
 
-| SFT Pin | SFT GPIO | SFT Name | Connected To |
-| ------- | -------- | -------- | ------------ |
-| J1-13   | 19       | POCI     | DMX D0       |
-| J1-12   | 23       | PICO     | DMX D1       |
-| J7-6    | 27       | 11       | DMX D2       |
+| SFT Pin | SFT GPIO | SFT Name | Connected To  |
+| ------- | -------- | -------- | ------------- |
+| J1-13   | 19       | POCI     | DMX D0        |
+| J1-12   | 23       | PICO     | DMX D1        |
+| J7-6    | 27       | 11       | DMX D2        |
+| J1-2    | 17       | TX       | DMX Transmit  |
+| J1-3    | 16       | RX       | DMX Receive   |
+| J1-1    | 4        | FREE     | DMX Enable    |
+| J7-5    | 15       | 08       | OLED Button A |
+| J7-3    | 14       | 04       | OLED Button B |
+| J7-4    | 32       | 06       | OLED Button C |
 
 # DMX Universe Channels
 * All Channels are Offset by the the starting address (default is 0 offset)
