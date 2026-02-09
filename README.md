@@ -22,7 +22,7 @@ DMX Controller for Haunted Doll House
    1. Install "esp_dmx by Mieth Weisbrod" version 4.1.0
       1. dmx read example won't compile, https://github.com/someweisguy/esp_dmx/issues/181#issuecomment-2619261884
       1. update uart.c to fork version
-   1.       
+   1. Install "Freenove WS2812 Lib for ESP32" version 2.0.1
 
 10. Plug in Sparkfun Thing Plus via USB C cable
 11. Select board by selecting "Tools --> Board --> esp32 --> SparkFun ESP32 Thing Plus C" 
@@ -38,6 +38,41 @@ Parts are mostly from SparkFun. If you're in the DFW area and buy from Mouser yo
 * https://www.adafruit.com/product/6313 - FeatherWing 128x64 OLED with pins
 * https://www.sparkfun.com/sparkfun-qwiic-quad-relay.html
   * Discontinued product but available on Mouser
+* This code supports WS2812 LEDs
+* Power connection is a 5.5mm barrel jack with positive center pin.
+
+# Pin & Channel Designations
+Pinouts for SparkFun Thing (SFT) Plus C. J1 is the 16 pin header. J7 is the 12 pin header.
+
+| SFT Pin | SFT GPIO | SFT Name | Connected To |
+| ------- | -------- | -------- | ------------ |
+| J1-12   | 23       | PICO     | DMX D0       |
+| J1-13   | 19       | POCI     | DMX D1       |
+| J7-6    | 27       | 11       | DMX D2       |
+
+# DMX Universe Channels
+* All Channels are Offset by the the starting address (default is 0 offset)
+* Lighting values are 0-255
+* Relay commands are boolean >127 is TRUE
+
+| Chan | Function    |
+| ---- | ----------- |
+| 1    | LED0 Red    |
+| 2    | LED0 Green  |
+| 3    | LED0 Blue   |
+| 4    | LED0 Dimmer |
+| 5    | LED1 Red    |
+| 6    | LED1 Green  |
+| 7    | LED1 Blue   |
+| 8    | LED1 Dimmer |
+| 9    | LED2 Red    |
+| 10   | LED2 Green  |
+| 11   | LED2 Blue   |
+| 12   | LED2 Dimmer |
+| 13   | Relay 1     |
+| 14   | Relay 2     |
+| 15   | Relay 3     |
+| 16   | Relay 4     |
 
 # Troubleshooting Notes
 * "SparkFun DMX Shield Library" makes some bad assumptions on how to detect the beginning of the DMX frames so isn't reliabloe for DMX reading
