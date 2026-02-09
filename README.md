@@ -23,6 +23,7 @@ DMX Controller for Haunted Doll House
       1. dmx read example won't compile, https://github.com/someweisguy/esp_dmx/issues/181#issuecomment-2619261884
       1. update uart.c to fork version
    1. Install "Freenove WS2812 Lib for ESP32" version 2.0.1
+   2. Install "SparkFun Qwiic Relay Arduino Library" version 1.3.1
 
 10. Plug in Sparkfun Thing Plus via USB C cable
 11. Select board by selecting "Tools --> Board --> esp32 --> SparkFun ESP32 Thing Plus C" 
@@ -42,12 +43,13 @@ Parts are mostly from SparkFun. If you're in the DFW area and buy from Mouser yo
 * Power connection is a 5.5mm barrel jack with positive center pin.
 
 # Pin & Channel Designations
-Pinouts for SparkFun Thing (SFT) Plus C. J1 is the 16 pin header. J7 is the 12 pin header.
+* Pinouts for SparkFun Thing (SFT) Plus C. J1 is the 16 pin header. J7 is the 12 pin header.
+* For some reason, the DMX board documentation had the D1/D1 pins swapped
 
 | SFT Pin | SFT GPIO | SFT Name | Connected To |
 | ------- | -------- | -------- | ------------ |
-| J1-12   | 23       | PICO     | DMX D0       |
-| J1-13   | 19       | POCI     | DMX D1       |
+| J1-13   | 19       | POCI     | DMX D0       |
+| J1-12   | 23       | PICO     | DMX D1       |
 | J7-6    | 27       | 11       | DMX D2       |
 
 # DMX Universe Channels
