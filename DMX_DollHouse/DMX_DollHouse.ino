@@ -12,9 +12,14 @@
   https://github.com/someweisguy/esp_dmx
 
 */
+// DMX board libs
 #include <Arduino.h>
 #include <esp_dmx.h>
 #include "Freenove_WS2812_Lib_for_ESP32.h"
+
+//Relay Board Libs
+#include <Wire.h>
+#include "SparkFun_Qwiic_Relay.h"
 
 // ==== DMX Init ==== //
 // Define DMX bus
@@ -46,6 +51,11 @@ unsigned long lastUpdate = millis(); //timer
 Freenove_ESP32_WS2812 LED0 = Freenove_ESP32_WS2812(LEDS_COUNT, LED0_PIN, 0, TYPE_GRB);
 Freenove_ESP32_WS2812 LED1 = Freenove_ESP32_WS2812(LEDS_COUNT, LED1_PIN, 1, TYPE_GRB);
 Freenove_ESP32_WS2812 LED2 = Freenove_ESP32_WS2812(LEDS_COUNT, LED2_PIN, 2, TYPE_GRB);
+
+// ==== Relay Init ==== //
+#define RELAY_ADDR 0x6D // Alternate address 0x6C
+
+Qwiic_Relay quadRelay(RELAY_ADDR); 
 
 // ==== Program Init ==== //
 //State machine states
@@ -91,6 +101,18 @@ void setup() {
   LED1.setBrightness(0);
   LED2.begin();
   LED2.setBrightness(0);
+
+// ==== Relay Init ==== //
+  Wire.begin(); 
+  // Make sure the hardware is set up correctly.
+  if(!quadRelay.begin())
+    Serial.println("Check connections to Qwiic Relay.");
+  else
+    Serial.println("Ready to flip some switches.");
+  
+  // Make sure all relays are off
+  quadRelay.turnAllRelaysOff(); 
+
 }
 
 void loop() {
@@ -141,6 +163,26 @@ void loop() {
         LED2.setBrightness(data[dmxStartAddr+12]);
         LED2.show();
 
+        //Output commands to relays
+        if(data[dmxStartAddr+13]>127)
+          quadRelay.turnRelayOn(1); 
+        else
+          quadRelay.turnRelayOff(1);
+
+        if(data[dmxStartAddr+14]>127)
+          quadRelay.turnRelayOn(2); 
+        else
+          quadRelay.turnRelayOff(2);
+
+        if(data[dmxStartAddr+15]>127)
+          quadRelay.turnRelayOn(3); 
+        else
+          quadRelay.turnRelayOff(3);
+
+        if(data[dmxStartAddr+16]>127)
+          quadRelay.turnRelayOn(4); 
+        else
+          quadRelay.turnRelayOff(4);
 
         lastUpdate = now;
       }
