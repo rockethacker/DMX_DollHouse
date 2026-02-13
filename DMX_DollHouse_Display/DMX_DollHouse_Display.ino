@@ -77,8 +77,8 @@ enum states {
 
 //Starting address in this DMX universe
 //This device takes 16 channels
-uint8_t dmxStartAddr = 496; 
-int rate = 2; //rate in Hz
+uint16_t dmxStartAddr = 496; 
+int rate = 20; //rate in Hz
 
 
 // a place to store packet information (not data)
@@ -169,10 +169,20 @@ void loop() {
         
         // Data has been received, print out channel values to serial
         // Data in slot [0] is start code
-        for (uint8_t i = 1; i < 17; i++) {
+        Serial.print(dmxStartAddr, DEC);
+        Serial.print(" : ");
+        for (uint16_t i = 1; i < 17; i++) {
             Serial.print(data[dmxStartAddr+i], HEX);
             Serial.print(" ");
         }
+       /*
+        // write all channel values to serial
+        for (uint16_t i = 1; i <=512; i++) {
+            Serial.print(data[i], HEX);
+            Serial.print(" ");
+        }
+        */
+        
         Serial.println(" ");
         
         //Output color commands to LED strips
