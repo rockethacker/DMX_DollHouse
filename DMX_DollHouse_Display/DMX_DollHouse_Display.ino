@@ -77,6 +77,7 @@ enum states {
 
 //Starting address in this DMX universe
 //This device takes 16 channels
+//baby board test is dmx start 1, ion perform is dmx 496
 uint16_t dmxStartAddr = 496; 
 int rate = 20; //rate in Hz
 
