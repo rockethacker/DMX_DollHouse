@@ -19,12 +19,12 @@ DMX Controller for Haunted Doll House
 8. Note that the above installations should take care of the CH340 driver installation. If not, follow https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers
 9. Install Libraries
    1. Open "Tools --> Manage Libraries..."
-   1. Install "esp_dmx by Mieth Weisbrod" version 4.1.0
+   1. Install "esp_dmx by Mitch Weisbrod" version 4.1.0
       1. dmx read example won't compile, https://github.com/someweisguy/esp_dmx/issues/181#issuecomment-2619261884
       1. update uart.c to fork version
    1. Install "Freenove WS2812 Lib for ESP32" version 2.0.1
    2. Install "SparkFun Qwiic Relay Arduino Library" version 1.3.1
-
+   3. Install "Adafruit SH110X" v2.1.14 with dependencies
 10. Plug in Sparkfun Thing Plus via USB C cable
 11. Select board by selecting "Tools --> Board --> esp32 --> SparkFun ESP32 Thing Plus C" 
 12. Select port by selecting "Tools -->  Port --> COMxx" Where "xx" is the port your board is connected to (e.g. COM3)
