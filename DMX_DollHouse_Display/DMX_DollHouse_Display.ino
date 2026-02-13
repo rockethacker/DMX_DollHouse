@@ -74,8 +74,11 @@ uint8_t data_val=0;
 enum states {
   DMX_SETUP, DMX_RUN, DMX
 };
-uint8_t dmxStartAddr = 1; //Starting address in this DMX universe
-int rate = 1; //rate in Hz
+
+//Starting address in this DMX universe
+//This device takes 16 channels
+uint8_t dmxStartAddr = 496; 
+int rate = 2; //rate in Hz
 
 
 // a place to store packet information (not data)
@@ -164,10 +167,10 @@ void loop() {
         /* Print the received start code - it's usually 0. */
         //Serial.printf("Start code is 0x%02X and slot 1 is 0x%02X\n", data[0], data[1]);
         
-        // Data has been received, print out 8 channel values
+        // Data has been received, print out channel values to serial
         // Data in slot [0] is start code
-        for (uint8_t i = 1; i < 9; i++) {
-            Serial.print(data[i], HEX);
+        for (uint8_t i = 1; i < 17; i++) {
+            Serial.print(data[dmxStartAddr+i], HEX);
             Serial.print(" ");
         }
         Serial.println(" ");
@@ -212,7 +215,7 @@ void loop() {
           display.print(page%8*64, DEC);
           display.setCursor(0,0);
           for (page_chan=0; page_chan <= 63; page_chan++){
-            data_val = data[page%8*64+page_chan];
+            data_val = data[page%8*64+1];
             //If single digit, pad with space
             if (data_val > 0xF){
               display.print(data_val, HEX);
