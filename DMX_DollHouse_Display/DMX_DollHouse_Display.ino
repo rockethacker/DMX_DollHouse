@@ -67,6 +67,7 @@ Qwiic_Relay quadRelay(RELAY_ADDR);
 Adafruit_SH1107 display = Adafruit_SH1107(64, 128, &Wire);
 uint16_t page_chan=0;
 uint16_t page=0;
+uint8_t data_val=0;
 
 // ==== Program Init ==== //
 //State machine states
@@ -74,7 +75,7 @@ enum states {
   DMX_SETUP, DMX_RUN, DMX
 };
 uint8_t dmxStartAddr = 1; //Starting address in this DMX universe
-int rate = 10; //rate in Hz
+int rate = 1; //rate in Hz
 
 
 // a place to store packet information (not data)
@@ -203,27 +204,29 @@ void loop() {
         else
           quadRelay.turnRelayOff(4);
 
-        lastUpdate = now;
-
         // ==== Output to Display ==== //
         //For each page. 8 channels per line. 8 lines per page.
-        for (page=0; page<=7; page++){
+        //for (page=0; page<=7; page++){
           display.clearDisplay();
           display.setCursor(105,0);
-          display.print(page*64, DEC);
+          display.print(page%8*64, DEC);
           display.setCursor(0,0);
           for (page_chan=0; page_chan <= 63; page_chan++){
-            display.print(data[page*64+page_chan], HEX);
-          if (page_chan%8>=7) {
-            display.println(" ");
+            data_val = data[page%8*64+page_chan];
+            //If single digit, pad with space
+            if (data_val > 0xF){
+              display.print(data_val, HEX);
+            } else {
+              display.print(" ");
+              display.print(data_val, HEX);
+            }
+            
+            if (page_chan%8>=7) {display.println(" ");}
           }
-        }
-    }
-    display.display(); // actually display all of the above
-    yield();
-    delay(1000);
-
-
+          display.display(); // actually display all of the above
+          page++;
+        //}
+        lastUpdate = now;
       }
     } else {
       /* Oops! A DMX error occurred! Don't worry, this can happen when you first
