@@ -80,15 +80,12 @@ enum states {
 uint16_t dmxStartAddr = 496; 
 int rate = 20; //rate in Hz
 
-
 // a place to store packet information (not data)
 dmx_packet_t packet;
 
 void setup() {
   Serial.begin(115200); //Start serial monitor
   Serial.println("Initializing...");
-
-  dmxStartAddr -= 1; //DMX addresses start at one. data array starts will null byte so decrement to make indexes work.
 
 // ==== DMX Init ==== //
   /* Install the DMX driver. Tell it which DMX port to use,
@@ -168,12 +165,17 @@ void loop() {
         //Serial.printf("Start code is 0x%02X and slot 1 is 0x%02X\n", data[0], data[1]);
         
         // Data has been received, print out channel values to serial
-        // Data in slot [0] is start code
         Serial.print(dmxStartAddr, DEC);
         Serial.print(" : ");
-        for (uint16_t i = 1; i < 17; i++) {
-            Serial.print(data[dmxStartAddr+i], HEX);
-            Serial.print(" ");
+        for (uint16_t i = 0; i < 16; i++) {
+          data_val = data[dmxStartAddr+i];
+          if (data_val > 0xF){
+            Serial.print(data_val, HEX);
+          } else {
+            Serial.print(" "); //pad single digit with space
+            Serial.print(data_val, HEX);
+          }
+          Serial.print(" "); //space between entries
         }
        /*
         // write all channel values to serial
@@ -186,38 +188,58 @@ void loop() {
         Serial.println(" ");
         
         //Output color commands to LED strips
-        LED0.setAllLedsColorData(data[dmxStartAddr+1], data[dmxStartAddr+2], data[dmxStartAddr+3]);
-        LED0.setBrightness(data[dmxStartAddr+4]);
+        LED0.setAllLedsColorData(data[dmxStartAddr+0], data[dmxStartAddr+1], data[dmxStartAddr+2]);
+        LED0.setBrightness(data[dmxStartAddr+3]);
         LED0.show();
-        LED1.setAllLedsColorData(data[dmxStartAddr+5], data[dmxStartAddr+6], data[dmxStartAddr+7]);
-        LED1.setBrightness(data[dmxStartAddr+8]);
+        LED1.setAllLedsColorData(data[dmxStartAddr+4], data[dmxStartAddr+5], data[dmxStartAddr+6]);
+        LED1.setBrightness(data[dmxStartAddr+7]);
         LED1.show();
-        LED2.setAllLedsColorData(data[dmxStartAddr+9], data[dmxStartAddr+10], data[dmxStartAddr+11]);
-        LED2.setBrightness(data[dmxStartAddr+12]);
+        LED2.setAllLedsColorData(data[dmxStartAddr+8], data[dmxStartAddr+9], data[dmxStartAddr+10]);
+        LED2.setBrightness(data[dmxStartAddr+11]);
         LED2.show();
 
         //Output commands to relays
-        if(data[dmxStartAddr+13]>127)
+        if(data[dmxStartAddr+12]>127)
           quadRelay.turnRelayOn(1); 
         else
           quadRelay.turnRelayOff(1);
 
-        if(data[dmxStartAddr+14]>127)
+        if(data[dmxStartAddr+13]>127)
           quadRelay.turnRelayOn(2); 
         else
           quadRelay.turnRelayOff(2);
 
-        if(data[dmxStartAddr+15]>127)
+        if(data[dmxStartAddr+14]>127)
           quadRelay.turnRelayOn(3); 
         else
           quadRelay.turnRelayOff(3);
 
-        if(data[dmxStartAddr+16]>127)
+        if(data[dmxStartAddr+15]>127)
           quadRelay.turnRelayOn(4); 
         else
           quadRelay.turnRelayOff(4);
 
         // ==== Output to Display ==== //
+       
+        // Data has been received, print out channel values to display
+        display.clearDisplay();
+        display.setCursor(0,0);
+        display.print("START: ");
+        display.println(dmxStartAddr, DEC);
+        for (uint16_t i = 0; i < 16; i++) {
+          data_val = data[dmxStartAddr+i];
+          if (data_val > 0xF){
+            display.print(data_val, HEX);
+          } else {
+            display.print(" "); //pad single digit with space
+            display.print(data_val, HEX);
+          }
+          display.print(" "); //space between entries
+          if (i%4>=3) {display.println(" ");}
+        }
+        display.display(); // actually display all of the above
+
+       /*
         //For each page. 8 channels per line. 8 lines per page.
         //for (page=0; page<=7; page++){
           display.clearDisplay();
@@ -238,6 +260,7 @@ void loop() {
           }
           display.display(); // actually display all of the above
           page++;
+          */
         //}
         lastUpdate = now;
       }
